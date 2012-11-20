@@ -33,7 +33,6 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class ShoebillConfig
 {
 	private File shoebillDir;
-	private File bootstrapDir;
 	private File repositoryDir;
 	private File librariesDir;
 	private File pluginsDir;
@@ -49,7 +48,6 @@ public class ShoebillConfig
 		config.read(in);
 
 		shoebillDir = new File(config.getString("shoebill", "shoebill") + File.separator);
-		bootstrapDir = new File(shoebillDir, config.getString("folder.bootstrap", "bootstrap") + File.separator);
 		repositoryDir = new File(shoebillDir, config.getString("folder.repository", "repository") + File.separator);
 		librariesDir = new File(shoebillDir, config.getString("folder.libraries", "libraries") + File.separator);
 		pluginsDir = new File(shoebillDir, config.getString("folder.plugins", "plugins") + File.separator);
@@ -68,11 +66,6 @@ public class ShoebillConfig
 	public File getShoebillDir()
 	{
 		return shoebillDir;
-	}
-	
-	public File getBootstrapDir()
-	{
-		return bootstrapDir;
 	}
 	
 	public File getRepositoryDir()
