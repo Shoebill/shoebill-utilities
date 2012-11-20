@@ -92,7 +92,7 @@ public class ShoebillArtifactLocator
 		String artifactId = tokens[1];
 		String version = tokens[2];
 		
-		String filename = groupId + COORD_TOKEN_FLAT_SEPARATOR + artifactId + COORD_TOKEN_FLAT_SEPARATOR + version + JAR_EXTENSION;
+		String filename = groupId + COORD_TOKEN_FLAT_SEPARATOR + artifactId + "-" + version + JAR_EXTENSION;
 		File file = new File(dir, filename);
 		
 		if (file.exists()) return null;
@@ -114,7 +114,7 @@ public class ShoebillArtifactLocator
 			if (curDir.exists() == false || curDir.isDirectory() == false) return null;
 		}
 		
-		String filename = artifactId + version + JAR_EXTENSION;
+		String filename = artifactId + "-" + version + JAR_EXTENSION;
 		File file = new File(curDir, filename);
 		
 		if (file.exists()) return null;
