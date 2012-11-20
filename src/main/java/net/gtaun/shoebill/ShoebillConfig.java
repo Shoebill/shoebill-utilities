@@ -32,6 +32,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  */
 public class ShoebillConfig
 {
+	private File shoebillDir;
 	private File bootstrapDir;
 	private File repositoryDir;
 	private File librariesDir;
@@ -39,18 +40,19 @@ public class ShoebillConfig
 	private File gamemodesDir;
 	
 	private boolean resolveDependencies;
-	
+
 	
 	public ShoebillConfig(InputStream in)
 	{
 		YamlConfiguration config = new YamlConfiguration();
 		config.read(in);
 
-		bootstrapDir = new File(config.getString("folder.bootstrap", "bootstrap"));
-		repositoryDir = new File(config.getString("folder.repository", "repository"));
-		librariesDir = new File(config.getString("folder.libraries", "libraries"));
-		pluginsDir = new File(config.getString("folder.plugins", "plugins"));
-		gamemodesDir = new File(config.getString("folder.gamemodes", "gamemodes"));
+		shoebillDir = new File(config.getString("shoebill", "shoebill") + File.separator);
+		bootstrapDir = new File(shoebillDir, config.getString("folder.bootstrap", "bootstrap") + File.separator);
+		repositoryDir = new File(shoebillDir, config.getString("folder.repository", "repository") + File.separator);
+		librariesDir = new File(shoebillDir, config.getString("folder.libraries", "libraries") + File.separator);
+		pluginsDir = new File(shoebillDir, config.getString("folder.plugins", "plugins") + File.separator);
+		gamemodesDir = new File(shoebillDir, config.getString("folder.gamemodes", "gamemodes") + File.separator);
 		
 		resolveDependencies = config.getBoolean("resolveDependencies", true);
 	}
@@ -59,6 +61,11 @@ public class ShoebillConfig
 	public String toString()
 	{
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.DEFAULT_STYLE);
+	}
+	
+	public File getShoebillDir()
+	{
+		return shoebillDir;
 	}
 	
 	public File getBootstrapDir()
