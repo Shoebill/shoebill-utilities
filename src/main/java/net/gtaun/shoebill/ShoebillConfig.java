@@ -17,6 +17,7 @@
 
 package net.gtaun.shoebill;
 
+import java.io.File;
 import java.io.InputStream;
 
 import net.gtaun.shoebill.util.config.YamlConfiguration;
@@ -31,15 +32,27 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  */
 public class ShoebillConfig
 {
-	private String gamemode;
+	private File bootstrapDir;
+	private File repositoryDir;
+	private File librariesDir;
+	private File pluginsDir;
+	private File gamemodesDir;
+	
+	private boolean resolveDependencies;
 	
 	
 	public ShoebillConfig(InputStream in)
 	{
 		YamlConfiguration config = new YamlConfiguration();
 		config.read(in);
+
+		bootstrapDir = new File(config.getString("folder.bootstrap", "bootstrap"));
+		repositoryDir = new File(config.getString("folder.repository", "repository"));
+		librariesDir = new File(config.getString("folder.libraries", "libraries"));
+		pluginsDir = new File(config.getString("folder.plugins", "plugins"));
+		gamemodesDir = new File(config.getString("folder.gamemodes", "gamemodes"));
 		
-		gamemode = config.getString("gamemode", null);
+		resolveDependencies = config.getBoolean("resolveDependencies", true);
 	}
 	
 	@Override
@@ -48,8 +61,33 @@ public class ShoebillConfig
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.DEFAULT_STYLE);
 	}
 	
-	public String getGamemode()
+	public File getBootstrapDir()
 	{
-		return gamemode;
+		return bootstrapDir;
+	}
+	
+	public File getRepositoryDir()
+	{
+		return repositoryDir;
+	}
+	
+	public File getLibrariesDir()
+	{
+		return librariesDir;
+	}
+	
+	public File getPluginsDir()
+	{
+		return pluginsDir;
+	}
+	
+	public File getGamemodesDir()
+	{
+		return gamemodesDir;
+	}
+	
+	public boolean isResolveDependencies()
+	{
+		return resolveDependencies;
 	}
 }

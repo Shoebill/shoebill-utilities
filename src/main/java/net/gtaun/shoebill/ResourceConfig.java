@@ -40,8 +40,11 @@ public class ResourceConfig
 		RepositoryEntry(Map<String, Object> map)
 		{
 			id = map.get("id").toString();
-			type = map.get("type").toString();
 			url = map.get("url").toString();
+
+			Object type = map.get("type");
+			if (type == null) this.type = "default";
+			else type = type.toString();
 		}
 		
 		public String getId()
