@@ -43,8 +43,7 @@ public class ResourceConfig
 			url = map.get("url").toString();
 
 			Object type = map.get("type");
-			if (type == null) this.type = "default";
-			else type = type.toString();
+			this.type = type == null ? "default" : type.toString();
 		}
 		
 		public String getId()
@@ -65,6 +64,8 @@ public class ResourceConfig
 	
 	
 	private List<RepositoryEntry> repositories;
+	private String cacheUpdatePolicy;
+	
 	private String runtime;
 	private List<String> plugins;
 	private String gamemode;
@@ -78,6 +79,7 @@ public class ResourceConfig
 		
 		List<Map<String, Object>> repoMaps = (List<Map<String, Object>>) config.getList("repositories");
 		repositories = new ArrayList<>(repoMaps.size());
+		cacheUpdatePolicy = config.getString("cacheUpdatePolicy", "never");
 		
 		for (Map<String, Object> map : repoMaps)
 		{
@@ -92,6 +94,11 @@ public class ResourceConfig
 	public List<RepositoryEntry> getRepositories()
 	{
 		return repositories;
+	}
+	
+	public String getCacheUpdatePolicy()
+	{
+		return cacheUpdatePolicy;
 	}
 	
 	public String getRuntime()
