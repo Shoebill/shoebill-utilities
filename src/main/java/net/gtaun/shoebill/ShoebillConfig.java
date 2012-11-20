@@ -38,6 +38,7 @@ public class ShoebillConfig
 	private File librariesDir;
 	private File pluginsDir;
 	private File gamemodesDir;
+	private File dataDir;
 	
 	private boolean resolveDependencies;
 
@@ -53,6 +54,7 @@ public class ShoebillConfig
 		librariesDir = new File(shoebillDir, config.getString("folder.libraries", "libraries") + File.separator);
 		pluginsDir = new File(shoebillDir, config.getString("folder.plugins", "plugins") + File.separator);
 		gamemodesDir = new File(shoebillDir, config.getString("folder.gamemodes", "gamemodes") + File.separator);
+		dataDir = new File(shoebillDir, config.getString("folder.data", "data") + File.separator);
 		
 		resolveDependencies = config.getBoolean("resolveDependencies", true);
 	}
@@ -91,6 +93,11 @@ public class ShoebillConfig
 	public File getGamemodesDir()
 	{
 		return gamemodesDir;
+	}
+	
+	public File getDataDir()
+	{
+		return dataDir;
 	}
 	
 	public boolean isResolveDependencies()
