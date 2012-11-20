@@ -95,7 +95,7 @@ public class ShoebillArtifactLocator
 		String filename = groupId + COORD_TOKEN_FLAT_SEPARATOR + artifactId + "-" + version + JAR_EXTENSION;
 		File file = new File(dir, filename);
 		
-		if (file.exists()) return null;
+		if (file.exists() == false) return null;
 		return file;
 	}
 	
@@ -117,7 +117,7 @@ public class ShoebillArtifactLocator
 		String filename = artifactId + "-" + version + JAR_EXTENSION;
 		File file = new File(curDir, filename);
 		
-		if (file.exists()) return null;
+		if (file.exists() == false) return null;
 		return file;
 	}
 }
