@@ -77,6 +77,15 @@ public class ShoebillArtifactLocator
 		return getArtifaceJarFile(resourceConfig.getGamemode(), shoebillConfig.getGamemodesDir());
 	}
 	
+	public File getOverrideFile(String coord)
+	{
+		File file = null;
+		file = getArtifactJarFileFromFlatRepo(coord, shoebillConfig.getLibrariesDir());
+		if (file == null) file = getArtifactJarFileFromFlatRepo(coord, shoebillConfig.getPluginsDir());
+		if (file == null) file = getArtifactJarFileFromFlatRepo(coord, shoebillConfig.getGamemodesDir());
+		return file;
+	}
+	
 	private File getArtifaceJarFile(String coord, File dir)
 	{
 		File file = null;
@@ -95,8 +104,17 @@ public class ShoebillArtifactLocator
 		String filename = groupId + COORD_TOKEN_FLAT_SEPARATOR + artifactId + "-" + version + JAR_EXTENSION;
 		File file = new File(dir, filename);
 		
-		if (file.exists() == false) return null;
-		return file;
+		if (file.exists()) return file;
+		
+		if (shoebillConfig.isAllowArtifactOverrideIgnoreGroupId())
+		{
+			filename = artifactId + "-" + version + JAR_EXTENSION;
+			file = new File(dir, filename);
+			
+			if (file.exists()) return file;
+		}
+	
+		return null;
 	}
 	
 	private File getArtifactJarFileFromMavenLocalRepo(String coord, File dir)

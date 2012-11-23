@@ -40,6 +40,7 @@ public class ShoebillConfig
 	private File dataDir;
 	
 	private boolean resolveDependencies;
+	private boolean allowArtifactOverrideIgnoreGroupId;
 
 	
 	public ShoebillConfig(InputStream in)
@@ -53,8 +54,9 @@ public class ShoebillConfig
 		pluginsDir = new File(shoebillDir, config.getString("folder.plugins", "plugins") + File.separator);
 		gamemodesDir = new File(shoebillDir, config.getString("folder.gamemodes", "gamemodes") + File.separator);
 		dataDir = new File(shoebillDir, config.getString("folder.data", "data") + File.separator);
-		
+
 		resolveDependencies = config.getBoolean("resolveDependencies", true);
+		allowArtifactOverrideIgnoreGroupId = config.getBoolean("allowArtifactOverrideIgnoreGroupId", false);
 	}
 	
 	@Override
@@ -96,5 +98,10 @@ public class ShoebillConfig
 	public boolean isResolveDependencies()
 	{
 		return resolveDependencies;
+	}
+	
+	public boolean isAllowArtifactOverrideIgnoreGroupId()
+	{
+		return allowArtifactOverrideIgnoreGroupId;
 	}
 }
