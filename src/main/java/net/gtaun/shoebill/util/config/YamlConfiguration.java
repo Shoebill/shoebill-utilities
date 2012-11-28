@@ -39,7 +39,7 @@ import org.yaml.snakeyaml.representer.Representer;
  * 
  * @author MK124
  */
-public class YamlConfiguration extends MemoryConfiguration implements FileConfiguration
+public class YamlConfiguration extends MapConfiguration implements FileConfiguration
 {
 	private Yaml yaml;
 	private File file;
@@ -51,7 +51,7 @@ public class YamlConfiguration extends MemoryConfiguration implements FileConfig
 		initialize();
 	}
 	
-	public YamlConfiguration(MemoryConfiguration config)
+	public YamlConfiguration(MapConfiguration config)
 	{
 		super(config.getRoot());
 		initialize();

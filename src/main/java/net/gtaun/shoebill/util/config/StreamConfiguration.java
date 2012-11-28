@@ -16,18 +16,16 @@
 
 package net.gtaun.shoebill.util.config;
 
-import java.io.File;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * 
  * 
  * @author MK124
  */
-public interface FileConfiguration extends StreamConfiguration
+public interface StreamConfiguration extends Configuration
 {
-	void setFile(File file);
-	File getFile();
-	
-	void save();
-	void load();
+	void read(InputStream stream);
+	void write(OutputStream stream);
 }
