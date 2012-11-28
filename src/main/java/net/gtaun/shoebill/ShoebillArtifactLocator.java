@@ -20,6 +20,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * 
  * 
@@ -90,7 +92,7 @@ public class ShoebillArtifactLocator
 	{
 		File file = null;
 		file = getArtifactJarFileFromFlatRepo(coord, dir);
-		if (file == null) getArtifactJarFileFromMavenLocalRepo(coord, shoebillConfig.getRepositoryDir());
+		if (file == null) file = getArtifactJarFileFromMavenLocalRepo(coord, shoebillConfig.getRepositoryDir());
 		return file;
 	}
 	
@@ -124,16 +126,17 @@ public class ShoebillArtifactLocator
 		String artifactId = tokens[1];
 		String version = tokens[2];
 		
-		File curDir = dir;
-		String[] groupTokens = groupId.split(".");
+		String path = dir.getPath() + File.separator;
+		String[] groupTokens = StringUtils.split(groupId, '.');
 		for (String child : groupTokens)
 		{
-			curDir = new File(curDir, child);
-			if (curDir.exists() == false || curDir.isDirectory() == false) return null;
+			path += child + File.separator;
 		}
+
+		path += artifactId + File.separator + version + File.separator;
+		path += artifactId + "-" + version + JAR_EXTENSION;
 		
-		String filename = artifactId + "-" + version + JAR_EXTENSION;
-		File file = new File(curDir, filename);
+		File file = new File(path);
 		
 		if (file.exists() == false) return null;
 		return file;
