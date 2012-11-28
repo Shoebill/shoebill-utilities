@@ -30,7 +30,7 @@ public interface Configuration
 	Object get(String path);
 	void set(String path, Object value);
 	
-	Configuration getNode(String path);
+	Configuration getSection(String path);
 	
 	String getString(String path);
 	String getString(String path, String def);
@@ -58,10 +58,19 @@ public interface Configuration
 	boolean isBoolean(String path);
 	
 	List<?> getList(String path);
+	List<?> getList(String path, List<?> def);
 	void setList(String path, List<?> value);
 	boolean isList(String path);
+
+	List<String> getStringList(String path);
 	List<String> getStringList(String path, List<String> def);
+
+	List<Integer> getIntList(String path);
 	List<Integer> getIntList(String path, List<Integer> def);
+
+	List<Double> getDoubleList(String path);
 	List<Double> getDoubleList(String path, List<Double> def);
+	
+	List<Boolean> getBooleanList(String path);
 	List<Boolean> getBooleanList(String path, List<Boolean> def);
 }

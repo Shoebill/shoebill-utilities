@@ -121,7 +121,7 @@ public class MapConfiguration implements Configuration
 	}
 	
 	@Override
-	public MapConfiguration getNode(String path)
+	public MapConfiguration getSection(String path)
 	{
 		return new MapConfiguration(getMap(path));
 	}
@@ -254,8 +254,16 @@ public class MapConfiguration implements Configuration
 	@Override
 	public List<?> getList(String path)
 	{
+		return getList(path, null);
+	}
+	
+	@Override
+	public List<?> getList(String path, List<?> def)
+	{
 		Object o = get(path);
-		return o instanceof List ? (List<?>) o : new ArrayList<Object>();
+		if (o instanceof List) return (List<?>) o;
+		if (def == null) def = new ArrayList<>(0);
+		return def;
 	}
 	
 	@Override
@@ -271,10 +279,16 @@ public class MapConfiguration implements Configuration
 	}
 	
 	@Override
+	public List<String> getStringList(String path)
+	{
+		return getStringList(path, null);
+	}
+	
+	@Override
 	public List<String> getStringList(String path, List<String> def)
 	{
 		List<?> raw = getList(path);
-		if (raw == null) { return (def != null) ? def : new ArrayList<String>(); }
+		if (raw == null) return (def != null) ? def : new ArrayList<String>();
 		
 		List<String> list = new ArrayList<>();
 		for (Object o : raw)
@@ -286,10 +300,16 @@ public class MapConfiguration implements Configuration
 	}
 	
 	@Override
+	public List<Integer> getIntList(String path)
+	{
+		return getIntList(path, null);
+	}
+	
+	@Override
 	public List<Integer> getIntList(String path, List<Integer> def)
 	{
 		List<?> raw = getList(path);
-		if (raw == null) { return (def != null) ? def : new ArrayList<Integer>(); }
+		if (raw == null) return (def != null) ? def : new ArrayList<Integer>();
 		
 		List<Integer> list = new ArrayList<>();
 		for (Object o : raw)
@@ -302,10 +322,16 @@ public class MapConfiguration implements Configuration
 	}
 	
 	@Override
+	public List<Double> getDoubleList(String path)
+	{
+		return getDoubleList(path, null);
+	}
+	
+	@Override
 	public List<Double> getDoubleList(String path, List<Double> def)
 	{
 		List<?> raw = getList(path);
-		if (raw == null) { return (def != null) ? def : new ArrayList<Double>(); }
+		if (raw == null) return (def != null) ? def : new ArrayList<Double>();
 		
 		List<Double> list = new ArrayList<>();
 		for (Object o : raw)
@@ -318,10 +344,16 @@ public class MapConfiguration implements Configuration
 	}
 	
 	@Override
+	public List<Boolean> getBooleanList(String path)
+	{
+		return getBooleanList(path, null);
+	}
+	
+	@Override
 	public List<Boolean> getBooleanList(String path, List<Boolean> def)
 	{
 		List<?> raw = getList(path);
-		if (raw == null) { return (def != null) ? def : new ArrayList<Boolean>(); }
+		if (raw == null) return (def != null) ? def : new ArrayList<Boolean>();
 		
 		List<Boolean> list = new ArrayList<>();
 		for (Object o : raw)

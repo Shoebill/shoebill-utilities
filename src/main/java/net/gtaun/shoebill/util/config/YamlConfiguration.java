@@ -78,18 +78,6 @@ public class YamlConfiguration extends MapConfiguration implements FileConfigura
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.DEFAULT_STYLE);
 	}
 	
-	@Override
-	public void setFile(File file)
-	{
-		this.file = file;
-	}
-	
-	@Override
-	public File getFile()
-	{
-		return file;
-	}
-	
 	@SuppressWarnings("unchecked")
 	@Override
 	public void read(InputStream in)
@@ -104,6 +92,18 @@ public class YamlConfiguration extends MapConfiguration implements FileConfigura
 	{
 		Writer writer = new OutputStreamWriter(out);
 		yaml.dump(getRoot(), writer);
+	}
+	
+	@Override
+	public void setFile(File file)
+	{
+		this.file = file;
+	}
+	
+	@Override
+	public File getFile()
+	{
+		return file;
 	}
 	
 	@Override
