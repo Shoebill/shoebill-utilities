@@ -88,7 +88,7 @@ public class ResourceConfig
 		
 		runtime = config.getString("runtime");
 		plugins = (List<String>) config.getList("plugins");
-		gamemode = config.getString("gamemodes");
+		gamemode = config.getString("gamemode");
 	}
 	
 	public List<RepositoryEntry> getRepositories()
