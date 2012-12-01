@@ -99,6 +99,15 @@ public class ShoebillArtifactLocator
 	private File getArtifactJarFileFromFlatRepo(String coord, File dir)
 	{
 		String[] tokens = coord.split(":");
+		if (tokens.length != 3)
+		{
+			String filename = coord + JAR_EXTENSION;
+			File file = new File(dir, filename);
+			
+			if (file.exists()) return file;
+			return null;
+		}
+		
 		String groupId = tokens[0];
 		String artifactId = tokens[1];
 		String version = tokens[2];
@@ -122,6 +131,8 @@ public class ShoebillArtifactLocator
 	private File getArtifactJarFileFromMavenLocalRepo(String coord, File dir)
 	{
 		String[] tokens = coord.split(":");
+		if (tokens.length != 3) return null;
+		
 		String groupId = tokens[0];
 		String artifactId = tokens[1];
 		String version = tokens[2];
