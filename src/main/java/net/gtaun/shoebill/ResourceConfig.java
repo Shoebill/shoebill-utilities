@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import net.gtaun.shoebill.util.config.MapConfiguration;
 import net.gtaun.shoebill.util.config.YamlConfiguration;
 
 /**
@@ -39,16 +40,13 @@ public class ResourceConfig
 		private String username;
 		private String password;
 		
-		RepositoryEntry(Map<String, Object> map)
+		RepositoryEntry(MapConfiguration section)
 		{
-			id = map.get("id").toString();
-			url = map.get("url").toString();
-
-			Object type = map.get("type");
-			this.type = type == null ? "default" : type.toString();
-			
-			username = map.get("username").toString();
-			password = map.get("password").toString();
+			id = section.getString("id");
+			url = section.getString("url");
+			type = section.getString("type", "default");
+			username = section.getString("username", null);
+			password = section.getString("password", null);
 		}
 		
 		public String getId()
@@ -98,7 +96,7 @@ public class ResourceConfig
 		
 		for (Map<String, Object> map : repoMaps)
 		{
-			repositories.add(new RepositoryEntry(map));
+			repositories.add(new RepositoryEntry(new MapConfiguration(map)));
 		}
 		
 		runtime = config.getString("runtime");
