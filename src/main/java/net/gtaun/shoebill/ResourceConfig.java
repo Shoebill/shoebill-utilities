@@ -36,6 +36,8 @@ public class ResourceConfig
 		private String id;
 		private String type;
 		private String url;
+		private String username;
+		private String password;
 		
 		RepositoryEntry(Map<String, Object> map)
 		{
@@ -44,6 +46,9 @@ public class ResourceConfig
 
 			Object type = map.get("type");
 			this.type = type == null ? "default" : type.toString();
+			
+			username = map.get("username").toString();
+			password = map.get("password").toString();
 		}
 		
 		public String getId()
@@ -59,6 +64,16 @@ public class ResourceConfig
 		public String getUrl()
 		{
 			return url;
+		}
+		
+		public String getUsername()
+		{
+			return username;
+		}
+		
+		public String getPassword()
+		{
+			return password;
 		}
 	}
 	
