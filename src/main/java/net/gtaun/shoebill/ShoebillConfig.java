@@ -47,8 +47,8 @@ public class ShoebillConfig
 	{
 		YamlConfiguration config = new YamlConfiguration();
 		config.read(in);
-
-		shoebillDir = new File(config.getString("shoebill", "shoebill") + File.separator);
+		
+		shoebillDir = new File(config.getString("shoebillPath", "shoebill") + File.separator);
 		repositoryDir = new File(shoebillDir, config.getString("folder.repository", "repository") + File.separator);
 		librariesDir = new File(shoebillDir, config.getString("folder.libraries", "libraries") + File.separator);
 		pluginsDir = new File(shoebillDir, config.getString("folder.plugins", "plugins") + File.separator);
