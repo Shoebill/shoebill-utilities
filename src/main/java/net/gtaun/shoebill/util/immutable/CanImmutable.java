@@ -21,18 +21,7 @@ package net.gtaun.shoebill.util.immutable;
  * 
  * @author MK124
  */
-public class ImmutablyException extends RuntimeException
+public interface CanImmutable
 {
-	static final long serialVersionUID = 1346439584283119125L;
-	
-	
-	public ImmutablyException()
-	{
-		
-	}
-	
-	public ImmutablyException(String message)
-	{
-		super(message);
-	}
+	Object immutable();
 }

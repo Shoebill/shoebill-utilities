@@ -23,5 +23,5 @@ package net.gtaun.shoebill.util.immutable;
  */
 public interface Immutable
 {
-	Object immure();
+	
 }
