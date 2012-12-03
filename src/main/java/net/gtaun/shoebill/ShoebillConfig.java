@@ -58,7 +58,7 @@ public class ShoebillConfig
 		
 		resolveDependencies = config.getBoolean("resolveDependencies", true);
 		allowArtifactOverrideIgnoreGroupId = config.getBoolean("allowArtifactOverrideIgnoreGroupId", false);
-		serverCodepage = config.getInt("serverCode", 1252);
+		serverCodepage = config.getInt("serverCodepage", 1252);
 	}
 	
 	@Override
