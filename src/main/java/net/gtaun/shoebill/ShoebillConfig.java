@@ -55,10 +55,10 @@ public class ShoebillConfig
 		pluginsDir = new File(shoebillDir, config.getString("folder.plugins", "plugins") + File.separator);
 		gamemodesDir = new File(shoebillDir, config.getString("folder.gamemodes", "gamemodes") + File.separator);
 		dataDir = new File(shoebillDir, config.getString("folder.data", "data") + File.separator);
-
+		
 		resolveDependencies = config.getBoolean("resolveDependencies", true);
 		allowArtifactOverrideIgnoreGroupId = config.getBoolean("allowArtifactOverrideIgnoreGroupId", false);
-		serverCodepage = config.getInt("serverCode", 437);
+		serverCodepage = config.getInt("serverCode", 1252);
 	}
 	
 	@Override
