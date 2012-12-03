@@ -161,7 +161,9 @@ public class MapConfiguration implements Configuration
 	public int getInt(String path, int def)
 	{
 		Object obj = get(path);
-		return (obj == null) ? def : (Integer) obj;
+		if (obj instanceof Integer) return (Integer)obj;
+		if (obj instanceof Number) return Integer.parseInt(obj.toString());
+		return def;
 	}
 	
 	@Override
@@ -186,7 +188,9 @@ public class MapConfiguration implements Configuration
 	public long getLong(String path, long def)
 	{
 		Object obj = get(path);
-		return (obj == null) ? def : (Long) obj;
+		if (obj instanceof Long) return (Long)obj;
+		if (obj instanceof Number) return Long.parseLong(obj.toString());
+		return def;
 	}
 	
 	@Override
@@ -211,7 +215,9 @@ public class MapConfiguration implements Configuration
 	public double getDouble(String path, double def)
 	{
 		Object obj = get(path);
-		return (obj == null) ? def : (Double) obj;
+		if (obj instanceof Double) return (Double)obj;
+		if (obj instanceof Number) return Double.parseDouble(obj.toString());
+		return def;
 	}
 	
 	@Override
@@ -236,7 +242,9 @@ public class MapConfiguration implements Configuration
 	public boolean getBoolean(String path, boolean def)
 	{
 		Object obj = get(path);
-		return (obj == null) ? def : (Boolean) obj;
+		if (obj instanceof Boolean) return (Boolean)obj;
+		if (obj instanceof Integer) return !obj.equals(0);
+		return def;
 	}
 	
 	@Override
