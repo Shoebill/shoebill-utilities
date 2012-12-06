@@ -47,18 +47,28 @@ public class ShoebillConfig
 	public ShoebillConfig(InputStream in)
 	{
 		YamlConfiguration config = new YamlConfiguration();
+		config.setDefault("shoebillPath", "shoebill");
+		config.setDefault("folder.repository", "repository");
+		config.setDefault("folder.libraries", "libraries");
+		config.setDefault("folder.plugins", "plugins");
+		config.setDefault("folder.gamemodes", "gamemodes");
+		config.setDefault("folder.data", "data");
+		config.setDefault("resolveDependencies", true);
+		config.setDefault("allowArtifactOverrideIgnoreGroupId", true);
+		config.setDefault("serverCodepage", 1252);
+		
 		config.read(in);
 		
-		shoebillDir = new File(config.getString("shoebillPath", "shoebill") + File.separator);
-		repositoryDir = new File(shoebillDir, config.getString("folder.repository", "repository") + File.separator);
-		librariesDir = new File(shoebillDir, config.getString("folder.libraries", "libraries") + File.separator);
-		pluginsDir = new File(shoebillDir, config.getString("folder.plugins", "plugins") + File.separator);
-		gamemodesDir = new File(shoebillDir, config.getString("folder.gamemodes", "gamemodes") + File.separator);
-		dataDir = new File(shoebillDir, config.getString("folder.data", "data") + File.separator);
+		shoebillDir = new File(config.getString("shoebillPath") + File.separator);
+		repositoryDir = new File(shoebillDir, config.getString("folder.repository") + File.separator);
+		librariesDir = new File(shoebillDir, config.getString("folder.libraries") + File.separator);
+		pluginsDir = new File(shoebillDir, config.getString("folder.plugins") + File.separator);
+		gamemodesDir = new File(shoebillDir, config.getString("folder.gamemodes") + File.separator);
+		dataDir = new File(shoebillDir, config.getString("folder.data") + File.separator);
 		
-		resolveDependencies = config.getBoolean("resolveDependencies", true);
-		allowArtifactOverrideIgnoreGroupId = config.getBoolean("allowArtifactOverrideIgnoreGroupId", false);
-		serverCodepage = config.getInt("serverCodepage", 1252);
+		resolveDependencies = config.getBoolean("resolveDependencies");
+		allowArtifactOverrideIgnoreGroupId = config.getBoolean("allowArtifactOverrideIgnoreGroupId");
+		serverCodepage = config.getInt("serverCodepage");
 	}
 	
 	@Override

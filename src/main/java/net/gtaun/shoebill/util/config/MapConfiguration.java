@@ -17,9 +17,7 @@
 
 package net.gtaun.shoebill.util.config;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -31,19 +29,66 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * 
  * @author MK124, JoJLlmAn
  */
-public class MapConfiguration implements Configuration
+public class MapConfiguration extends AbstractConfiguration implements Configuration
 {
+	@SuppressWarnings("unchecked")
+	private static void set(Map<String, Object> map, String path, Object value)
+	{
+		String[] childs = StringUtils.split(path, '.');
+		
+		Map<String, Object> node = map;
+		for (int i = 0; i < childs.length - 1; i++)
+		{
+			Object obj = node.get(childs[i]);
+			if (obj instanceof Map<?, ?> == false)
+			{
+				obj = new HashMap<>();
+				node.put(childs[i], obj);
+			}
+			
+			node = (Map<String, Object>) obj;
+		}
+		
+		node.put(childs[childs.length - 1], value);
+		return;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static Object get(Map<String, Object> map, String path)
+	{
+		String[] childs = StringUtils.split(path, '.');
+		if (childs.length == 0) return map;
+		
+		Map<String, Object> node = map;
+		for (int i = 0; i < childs.length - 1; i++)
+		{
+			Object obj = node.get(childs[i]);
+			if (obj instanceof Map<?, ?> == false) return null;
+			node = (HashMap<String, Object>) obj;
+		}
+		
+		return node.get(childs[childs.length - 1]);
+	}
+	
+	
 	private Map<String, Object> root;
+	private Map<String, Object> defRoot;
 	
 	
 	public MapConfiguration()
 	{
 		this(null);
 	}
-	
+
 	public MapConfiguration(Map<String, Object> root)
 	{
+		this(root, null);
+	}
+	
+	public MapConfiguration(Map<String, Object> root, Map<String, Object> def)
+	{
 		setRoot((root != null) ? root : new HashMap<String, Object>());
+		setDefaultRoot((def != null) ? def : new HashMap<String, Object>());
 	}
 	
 	@Override
@@ -55,6 +100,11 @@ public class MapConfiguration implements Configuration
 	public void setRoot(Map<String, Object> root)
 	{
 		this.root = root;
+	}
+	
+	public void setDefaultRoot(Map<String, Object> def)
+	{
+		this.defRoot = def;
 	}
 	
 	public Map<String, Object> getRoot()
@@ -80,296 +130,33 @@ public class MapConfiguration implements Configuration
 	}
 	
 	@Override
-	@SuppressWarnings("unchecked")
 	public Object get(String path)
 	{
-		String[] childs = StringUtils.split(path, '.');
-		if (childs.length == 0) return root;
-		
-		Map<String, Object> node = root;
-		for (int i = 0; i < childs.length - 1; i++)
-		{
-			Object obj = node.get(childs[i]);
-			if (obj instanceof Map<?, ?> == false) return null;
-			node = (HashMap<String, Object>) obj;
-		}
-		
-		return node.get(childs[childs.length - 1]);
+		return get(root, path);
 	}
 	
 	@Override
-	@SuppressWarnings("unchecked")
 	public void set(String path, Object value)
 	{
-		String[] childs = StringUtils.split(path, '.');
-		
-		Map<String, Object> node = root;
-		for (int i = 0; i < childs.length - 1; i++)
-		{
-			Object obj = node.get(childs[i]);
-			if (obj instanceof Map<?, ?> == false)
-			{
-				obj = new HashMap<>();
-				node.put(childs[i], obj);
-			}
-			
-			node = (Map<String, Object>) obj;
-		}
-		
-		node.put(childs[childs.length - 1], value);
+		set(root, path, value);
 		return;
 	}
 	
 	@Override
-	public MapConfiguration getSection(String path)
+	public Configuration getSection(String path)
 	{
-		return new MapConfiguration(getMap(path));
+		return FilterConfiguration.pathPrefixConfiguration(this, path + '.');
 	}
 	
 	@Override
-	public String getString(String path)
+	public void setDefault(String path, Object value)
 	{
-		return getString(path, "");
+		set(defRoot, path, value);
 	}
 	
 	@Override
-	public String getString(String path, String def)
+	public Object getDefault(String path)
 	{
-		Object obj = get(path);
-		return (obj == null) ? def : obj.toString();
-	}
-	
-	@Override
-	public void setString(String path, Object value)
-	{
-		set(path, value.toString());
-	}
-	
-	@Override
-	public boolean isString(String path)
-	{
-		return get(path) instanceof String;
-	}
-	
-	@Override
-	public int getInt(String path)
-	{
-		return getInt(path, 0);
-	}
-	
-	@Override
-	public int getInt(String path, int def)
-	{
-		Object obj = get(path);
-		if (obj instanceof Integer) return (Integer)obj;
-		if (obj instanceof Number) return Integer.parseInt(obj.toString());
-		return def;
-	}
-	
-	@Override
-	public void setInt(String path, int value)
-	{
-		set(path, value);
-	}
-	
-	@Override
-	public boolean isInt(String path)
-	{
-		return get(path) instanceof Integer;
-	}
-	
-	@Override
-	public long getLong(String path)
-	{
-		return getLong(path, 0L);
-	}
-	
-	@Override
-	public long getLong(String path, long def)
-	{
-		Object obj = get(path);
-		if (obj instanceof Long) return (Long)obj;
-		if (obj instanceof Number) return Long.parseLong(obj.toString());
-		return def;
-	}
-	
-	@Override
-	public void setLong(String path, long value)
-	{
-		set(path, value);
-	}
-	
-	@Override
-	public boolean isLong(String path)
-	{
-		return get(path) instanceof Long;
-	}
-	
-	@Override
-	public double getDouble(String path)
-	{
-		return getDouble(path, Double.NaN);
-	}
-	
-	@Override
-	public double getDouble(String path, double def)
-	{
-		Object obj = get(path);
-		if (obj instanceof Double) return (Double)obj;
-		if (obj instanceof Number) return Double.parseDouble(obj.toString());
-		return def;
-	}
-	
-	@Override
-	public void setDouble(String path, double value)
-	{
-		set(path, value);
-	}
-	
-	@Override
-	public boolean isDouble(String path)
-	{
-		return get(path) instanceof Double;
-	}
-	
-	@Override
-	public boolean getBoolean(String path)
-	{
-		return getBoolean(path, false);
-	}
-	
-	@Override
-	public boolean getBoolean(String path, boolean def)
-	{
-		Object obj = get(path);
-		if (obj instanceof Boolean) return (Boolean)obj;
-		if (obj instanceof Integer) return !obj.equals(0);
-		return def;
-	}
-	
-	@Override
-	public void setBoolean(String path, boolean value)
-	{
-		set(path, value);
-	}
-	
-	@Override
-	public boolean isBoolean(String path)
-	{
-		return get(path) instanceof Boolean;
-	}
-	
-	@Override
-	public List<?> getList(String path)
-	{
-		return getList(path, null);
-	}
-	
-	@Override
-	public List<?> getList(String path, List<?> def)
-	{
-		Object o = get(path);
-		if (o instanceof List) return (List<?>) o;
-		if (def == null) def = new ArrayList<>(0);
-		return def;
-	}
-	
-	@Override
-	public void setList(String path, List<?> value)
-	{
-		set(path, value);
-	}
-	
-	@Override
-	public boolean isList(String path)
-	{
-		return get(path) instanceof List;
-	}
-	
-	@Override
-	public List<String> getStringList(String path)
-	{
-		return getStringList(path, null);
-	}
-	
-	@Override
-	public List<String> getStringList(String path, List<String> def)
-	{
-		List<?> raw = getList(path);
-		if (raw == null) return (def != null) ? def : new ArrayList<String>();
-		
-		List<String> list = new ArrayList<>();
-		for (Object o : raw)
-		{
-			if (o != null) list.add(o.toString());
-		}
-		
-		return list;
-	}
-	
-	@Override
-	public List<Integer> getIntList(String path)
-	{
-		return getIntList(path, null);
-	}
-	
-	@Override
-	public List<Integer> getIntList(String path, List<Integer> def)
-	{
-		List<?> raw = getList(path);
-		if (raw == null) return (def != null) ? def : new ArrayList<Integer>();
-		
-		List<Integer> list = new ArrayList<>();
-		for (Object o : raw)
-		{
-			Integer i = Integer.parseInt(o.toString());
-			if (i != null) list.add(i);
-		}
-		
-		return list;
-	}
-	
-	@Override
-	public List<Double> getDoubleList(String path)
-	{
-		return getDoubleList(path, null);
-	}
-	
-	@Override
-	public List<Double> getDoubleList(String path, List<Double> def)
-	{
-		List<?> raw = getList(path);
-		if (raw == null) return (def != null) ? def : new ArrayList<Double>();
-		
-		List<Double> list = new ArrayList<>();
-		for (Object o : raw)
-		{
-			Double d = Double.parseDouble(o.toString());
-			if (d != null) list.add(d);
-		}
-		
-		return list;
-	}
-	
-	@Override
-	public List<Boolean> getBooleanList(String path)
-	{
-		return getBooleanList(path, null);
-	}
-	
-	@Override
-	public List<Boolean> getBooleanList(String path, List<Boolean> def)
-	{
-		List<?> raw = getList(path);
-		if (raw == null) return (def != null) ? def : new ArrayList<Boolean>();
-		
-		List<Boolean> list = new ArrayList<>();
-		for (Object o : raw)
-		{
-			Boolean b = Boolean.parseBoolean(o.toString());
-			if (b != null) list.add(b);
-		}
-		
-		return list;
+		return get(defRoot, path);
 	}
 }

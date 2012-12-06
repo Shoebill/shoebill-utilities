@@ -88,11 +88,13 @@ public class ResourceConfig
 	public ResourceConfig(InputStream in)
 	{
 		YamlConfiguration config = new YamlConfiguration();
+		config.setDefault(cacheUpdatePolicy, "never");
+		
 		config.read(in);
 		
 		List<Map<String, Object>> repoMaps = (List<Map<String, Object>>) config.getList("repositories");
 		repositories = new ArrayList<>(repoMaps.size());
-		cacheUpdatePolicy = config.getString("cacheUpdatePolicy", "never");
+		cacheUpdatePolicy = config.getString("cacheUpdatePolicy");
 		
 		for (Map<String, Object> map : repoMaps)
 		{

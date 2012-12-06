@@ -25,12 +25,38 @@ import java.util.List;
  */
 public interface Configuration
 {
+	public static final class ConfigurationPair
+	{
+		private String path;
+		private Object value;
+		
+		public ConfigurationPair(String path, Object value)
+		{
+			this.path = path;
+			this.value = value;
+		}
+		
+		public String getPath()
+		{
+			return path;
+		}
+		
+		public Object getValue()
+		{
+			return value;
+		}
+	}
+	
+	
 	boolean contains(String path);
 	
 	Object get(String path);
 	void set(String path, Object value);
 	
 	Configuration getSection(String path);
+	
+	void setDefault(String path, Object value);	
+	Object getDefault(String path);
 	
 	String getString(String path);
 	String getString(String path, String def);
@@ -46,6 +72,11 @@ public interface Configuration
 	long getLong(String path, long def);
 	void setLong(String path, long value);
 	boolean isLong(String path);
+	
+	float getFloat(String path);
+	float getFloat(String path, float def);
+	void setFloat(String path, float value);
+	boolean isFloat(String path);
 	
 	double getDouble(String path);
 	double getDouble(String path, double def);
