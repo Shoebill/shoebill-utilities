@@ -88,7 +88,7 @@ public class ResourceConfig
 	public ResourceConfig(InputStream in)
 	{
 		YamlConfiguration config = new YamlConfiguration();
-		config.setDefault(cacheUpdatePolicy, "never");
+		config.setDefault("cacheUpdatePolicy", "never");
 		
 		config.read(in);
 		
