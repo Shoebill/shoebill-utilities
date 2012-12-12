@@ -19,6 +19,9 @@ package net.gtaun.shoebill.util.config;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.math.NumberUtils;
+
 /**
  * 
  * 
@@ -30,7 +33,7 @@ public abstract class AbstractConfiguration implements Configuration
 	{
 		
 	}
-
+	
 	@Override
 	public String getString(String path)
 	{
@@ -61,18 +64,7 @@ public abstract class AbstractConfiguration implements Configuration
 	@Override
 	public int getInt(String path)
 	{
-		Integer def = 0;
-		try
-		{
-			def = (Integer) getDefault(path);
-		}
-		catch (ClassCastException e)
-		{
-			
-		}
-		
-		if (def == null) def = 0;
-		return getInt(path, def);
+		return getInt(path, 0);
 	}
 	
 	@Override
@@ -80,8 +72,7 @@ public abstract class AbstractConfiguration implements Configuration
 	{
 		Object obj = get(path);
 		if (obj instanceof Integer) return (Integer)obj;
-		if (obj instanceof Number) return Integer.parseInt(obj.toString());
-		return def;
+		return NumberUtils.toInt(obj.toString(), def);
 	}
 	
 	@Override
@@ -99,17 +90,7 @@ public abstract class AbstractConfiguration implements Configuration
 	@Override
 	public long getLong(String path)
 	{
-		Long def = 0L;
-		try
-		{
-			def = (Long) getDefault(path);
-		}
-		catch (ClassCastException e)
-		{
-			
-		}
-		
-		return getLong(path, def);
+		return getLong(path, 0L);
 	}
 	
 	@Override
@@ -117,8 +98,7 @@ public abstract class AbstractConfiguration implements Configuration
 	{
 		Object obj = get(path);
 		if (obj instanceof Long) return (Long)obj;
-		if (obj instanceof Number) return Long.parseLong(obj.toString());
-		return def;
+		return NumberUtils.toLong(obj.toString(), def);
 	}
 	
 	@Override
@@ -136,17 +116,7 @@ public abstract class AbstractConfiguration implements Configuration
 	@Override
 	public float getFloat(String path)
 	{
-		Float def = Float.NaN;
-		try
-		{
-			def = (Float) getDefault(path);
-		}
-		catch (ClassCastException e)
-		{
-			
-		}
-		
-		return getFloat(path, def);
+		return getFloat(path, 0.0f);
 	}
 	
 	@Override
@@ -154,8 +124,7 @@ public abstract class AbstractConfiguration implements Configuration
 	{
 		Object obj = get(path);
 		if (obj instanceof Float) return (Float)obj;
-		if (obj instanceof Number) return Float.parseFloat(obj.toString());
-		return def;
+		return NumberUtils.toFloat(obj.toString(), def);
 	}
 	
 	@Override
@@ -173,17 +142,7 @@ public abstract class AbstractConfiguration implements Configuration
 	@Override
 	public double getDouble(String path)
 	{
-		Double def = Double.NaN;
-		try
-		{
-			def = (Double) getDefault(path);
-		}
-		catch (ClassCastException e)
-		{
-			
-		}
-		
-		return getDouble(path, def);
+		return getDouble(path, 0.0);
 	}
 	
 	@Override
@@ -191,8 +150,7 @@ public abstract class AbstractConfiguration implements Configuration
 	{
 		Object obj = get(path);
 		if (obj instanceof Double) return (Double)obj;
-		if (obj instanceof Number) return Double.parseDouble(obj.toString());
-		return def;
+		return NumberUtils.toDouble(obj.toString(), def);
 	}
 	
 	@Override
@@ -210,17 +168,7 @@ public abstract class AbstractConfiguration implements Configuration
 	@Override
 	public boolean getBoolean(String path)
 	{
-		Boolean def = false;
-		try
-		{
-			def = (Boolean) getDefault(path);
-		}
-		catch (ClassCastException e)
-		{
-			
-		}
-		
-		return getBoolean(path, def);
+		return getBoolean(path, false);
 	}
 	
 	@Override
@@ -228,8 +176,7 @@ public abstract class AbstractConfiguration implements Configuration
 	{
 		Object obj = get(path);
 		if (obj instanceof Boolean) return (Boolean)obj;
-		if (obj instanceof Integer) return !obj.equals(0);
-		return def;
+		return BooleanUtils.toBooleanDefaultIfNull(BooleanUtils.toBooleanObject(obj.toString()), def);
 	}
 	
 	@Override
@@ -307,8 +254,28 @@ public abstract class AbstractConfiguration implements Configuration
 		List<Integer> list = new ArrayList<>();
 		for (Object o : raw)
 		{
-			Integer i = Integer.parseInt(o.toString());
-			if (i != null) list.add(i);
+			list.add(NumberUtils.toInt(o.toString(), 0));
+		}
+		
+		return list;
+	}
+	
+	@Override
+	public List<Float> getFloatList(String path)
+	{
+		return getFloatList(path, null);
+	}
+	
+	@Override
+	public List<Float> getFloatList(String path, List<Float> def)
+	{
+		List<?> raw = getList(path);
+		if (raw == null) return (def != null) ? def : new ArrayList<Float>();
+		
+		List<Float> list = new ArrayList<>();
+		for (Object o : raw)
+		{
+			list.add(NumberUtils.toFloat(o.toString(), 0.0f));
 		}
 		
 		return list;
@@ -329,8 +296,7 @@ public abstract class AbstractConfiguration implements Configuration
 		List<Double> list = new ArrayList<>();
 		for (Object o : raw)
 		{
-			Double d = Double.parseDouble(o.toString());
-			if (d != null) list.add(d);
+			list.add(NumberUtils.toDouble(o.toString(), 0.0));
 		}
 		
 		return list;
@@ -351,8 +317,7 @@ public abstract class AbstractConfiguration implements Configuration
 		List<Boolean> list = new ArrayList<>();
 		for (Object o : raw)
 		{
-			Boolean b = Boolean.parseBoolean(o.toString());
-			if (b != null) list.add(b);
+			list.add(BooleanUtils.toBoolean(o.toString()));
 		}
 		
 		return list;

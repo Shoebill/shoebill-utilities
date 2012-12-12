@@ -99,6 +99,9 @@ public interface Configuration
 	List<Integer> getIntList(String path);
 	List<Integer> getIntList(String path, List<Integer> def);
 
+	List<Float> getFloatList(String path);
+	List<Float> getFloatList(String path, List<Float> def);
+
 	List<Double> getDoubleList(String path);
 	List<Double> getDoubleList(String path, List<Double> def);
 	
