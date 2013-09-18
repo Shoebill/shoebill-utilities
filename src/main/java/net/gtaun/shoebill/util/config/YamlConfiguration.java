@@ -66,7 +66,7 @@ public class YamlConfiguration extends MapConfiguration implements FileConfigura
 	private void initialize()
 	{
 		DumperOptions options = new DumperOptions();
-		options.setIndent(4);
+		options.setIndent(2);
 		options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
 		
 		yaml = new Yaml(new SafeConstructor(), new Representer(), options);

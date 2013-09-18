@@ -78,12 +78,19 @@ public class MapConfiguration extends AbstractConfiguration implements Configura
 	public static void getKeyList(Collection<String> collection, String path, Map<String, Object> map)
 	{
 		if (map == null) return;
-		for (Entry<String, Object> entry : map.entrySet())
+		try
 		{
-			Object obj = entry.getValue();
-			String curPath = path.isEmpty() ? entry.getKey() : path + "." + entry.getKey();
-			if (obj instanceof Map<?, ?> == false) collection.add(curPath);
-			else getKeyList(collection, curPath, (Map<String, Object>) obj);
+			for (Entry<String, Object> entry : map.entrySet())
+			{
+				Object obj = entry.getValue();
+				String curPath = path.isEmpty() ? entry.getKey() : path + "." + entry.getKey();
+				if (obj instanceof Map<?, ?> == false) collection.add(curPath);
+				else getKeyList(collection, curPath, (Map<String, Object>) obj);
+			}
+		}
+		catch (ClassCastException e)
+		{
+			return;
 		}
 	}
 	
