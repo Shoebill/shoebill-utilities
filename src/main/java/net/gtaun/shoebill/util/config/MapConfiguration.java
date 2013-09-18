@@ -83,7 +83,7 @@ public class MapConfiguration extends AbstractConfiguration implements Configura
 			Object obj = entry.getValue();
 			String curPath = path.isEmpty() ? entry.getKey() : path + "." + entry.getKey();
 			if (obj instanceof Map<?, ?> == false) collection.add(curPath);
-			getKeyList(collection, curPath, (Map<String, Object>) obj);
+			else getKeyList(collection, curPath, (Map<String, Object>) obj);
 		}
 	}
 	
