@@ -16,6 +16,7 @@
 
 package net.gtaun.shoebill.util.config;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -54,6 +55,9 @@ public interface Configuration
 	void set(String path, Object value);
 	
 	Configuration getSection(String path);
+	
+	Collection<String> getKeyList();
+	Collection<String> getKeyList(String path);
 	
 	void setDefault(String path, Object value);	
 	Object getDefault(String path);

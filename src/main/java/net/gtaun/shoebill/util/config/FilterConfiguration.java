@@ -16,25 +16,47 @@
 
 package net.gtaun.shoebill.util.config;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 /**
  * 
  * 
  * @author MK124
  */
-public class FilterConfiguration extends AbstractConfiguration implements Configuration
+public abstract class FilterConfiguration extends AbstractConfiguration implements Configuration
 {
 	public static Configuration pathPrefixConfiguration(final Configuration config, final String prefix)
 	{
-		return new FilterConfiguration
-		(
-			config, new ConfigurationFilter()
+		final ConfigurationFilter filter = new ConfigurationFilter()
+		{
+			String filterPath(String path)
 			{
-				String filterPath(String path)
-				{
-					return prefix + path;
-				}
+				return prefix + path;
 			}
-		);
+		};
+		
+		return new FilterConfiguration(config, filter)
+		{
+			@Override
+			public Collection<String> getKeyList()
+			{
+				List<String> list = new ArrayList<>();
+				Collection<String> parentList = config.getKeyList(prefix);
+				for (String key : parentList) list.add(key.substring(prefix.length()));
+				return list;
+			}
+			
+			@Override
+			public Collection<String> getKeyList(String path)
+			{
+				List<String> list = new ArrayList<>();
+				Collection<String> parentList = config.getKeyList(filter.filterPath(path));
+				for (String key : parentList) list.add(key.substring(prefix.length()));
+				return list;
+			}
+		};
 	}
 	
 	public static Configuration readonlyConfiguration(final Configuration config)
@@ -53,7 +75,20 @@ public class FilterConfiguration extends AbstractConfiguration implements Config
 					return null;
 				}
 			}
-		);
+		)
+		{
+			@Override
+			public Collection<String> getKeyList()
+			{
+				return config.getKeyList();
+			}
+			
+			@Override
+			public Collection<String> getKeyList(String path)
+			{
+				return config.getKeyList(path);
+			}
+		};
 	}
 	
 	

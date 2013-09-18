@@ -17,8 +17,12 @@
 
 package net.gtaun.shoebill.util.config;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -68,6 +72,19 @@ public class MapConfiguration extends AbstractConfiguration implements Configura
 		}
 		
 		return node.get(childs[childs.length - 1]);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static void getKeyList(Collection<String> collection, String path, Map<String, Object> map)
+	{
+		if (map == null) return;
+		for (Entry<String, Object> entry : map.entrySet())
+		{
+			Object obj = entry.getValue();
+			String curPath = path.isEmpty() ? entry.getKey() : path + "." + entry.getKey();
+			if (obj instanceof Map<?, ?> == false) collection.add(curPath);
+			getKeyList(collection, curPath, (Map<String, Object>) obj);
+		}
 	}
 	
 	
@@ -146,6 +163,20 @@ public class MapConfiguration extends AbstractConfiguration implements Configura
 	public Configuration getSection(String path)
 	{
 		return FilterConfiguration.pathPrefixConfiguration(this, path + '.');
+	}
+	
+	@Override
+	public Collection<String> getKeyList()
+	{
+		return getKeyList("");
+	}
+	
+	@Override
+	public Collection<String> getKeyList(String path)
+	{
+		List<String> list = new ArrayList<>();
+		getKeyList(list, path, getMap(path));
+		return list;
 	}
 	
 	@Override
