@@ -79,6 +79,7 @@ public class ResourceConfig
 	
 	private List<RepositoryEntry> repositories;
 	private String cacheUpdatePolicy;
+	private boolean offlineMode;
 	
 	private List<String> runtimes;
 	private List<String> plugins;
@@ -96,6 +97,7 @@ public class ResourceConfig
 		List<Map<String, Object>> repoMaps = (List<Map<String, Object>>) config.getList("repositories");
 		repositories = new ArrayList<>(repoMaps.size());
 		cacheUpdatePolicy = config.getString("cacheUpdatePolicy");
+		offlineMode = config.getBoolean("offlineMode");
 		
 		for (Map<String, Object> map : repoMaps)
 		{
@@ -115,6 +117,11 @@ public class ResourceConfig
 	public String getCacheUpdatePolicy()
 	{
 		return cacheUpdatePolicy;
+	}
+	
+	public boolean isOfflineMode()
+	{
+		return offlineMode;
 	}
 	
 	public List<String> getRuntimes()
