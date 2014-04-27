@@ -43,14 +43,20 @@ public class ShoebillArtifactLocator
 		this.resourceConfig = resourceConfig;
 	}
 
-	public File getRuntimeFile()
+	public List<File> getRuntimeFiles()
 	{
-		return getArtifaceJarFile(resourceConfig.getRuntime(), shoebillConfig.getLibrariesDir());
-	}
-	
-	public File getLibraryFile(String coord)
-	{
-		return getArtifaceJarFile(coord, shoebillConfig.getLibrariesDir());
+		List<String> coords = resourceConfig.getRuntimes();
+		List<File> result = new ArrayList<>(coords.size());
+		
+		File pluginsDir = shoebillConfig.getPluginsDir();
+		
+		for (String coord : coords)
+		{
+			File file = getArtifaceJarFile(coord, pluginsDir);
+			if (file != null) result.add(file);
+		}
+		
+		return result;
 	}
 	
 	public File getPluginFile(String coord)
@@ -60,12 +66,12 @@ public class ShoebillArtifactLocator
 	
 	public List<File> getPluginFiles()
 	{
-		List<String> pluginCoords = resourceConfig.getPlugins();
-		List<File> result = new ArrayList<>(pluginCoords.size());
+		List<String> coords = resourceConfig.getPlugins();
+		List<File> result = new ArrayList<>(coords.size());
 		
 		File pluginsDir = shoebillConfig.getPluginsDir();
 		
-		for (String coord : pluginCoords)
+		for (String coord : coords)
 		{
 			File file = getArtifaceJarFile(coord, pluginsDir);
 			if (file != null) result.add(file);

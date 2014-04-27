@@ -19,6 +19,7 @@ package net.gtaun.shoebill;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -79,7 +80,7 @@ public class ResourceConfig
 	private List<RepositoryEntry> repositories;
 	private String cacheUpdatePolicy;
 	
-	private String runtime;
+	private List<String> runtimes;
 	private List<String> plugins;
 	private String gamemode;
 	
@@ -101,7 +102,7 @@ public class ResourceConfig
 			repositories.add(new RepositoryEntry(new MapConfiguration(map)));
 		}
 		
-		runtime = config.getString("runtime");
+		runtimes = (List<String>) config.getList("runtimes");
 		plugins = (List<String>) config.getList("plugins");
 		gamemode = config.getString("gamemode");
 	}
@@ -116,14 +117,14 @@ public class ResourceConfig
 		return cacheUpdatePolicy;
 	}
 	
-	public String getRuntime()
+	public List<String> getRuntimes()
 	{
-		return runtime;
+		return Collections.unmodifiableList(runtimes);
 	}
 	
 	public List<String> getPlugins()
 	{
-		return plugins;
+		return Collections.unmodifiableList(plugins);
 	}
 	
 	public String getGamemode()
