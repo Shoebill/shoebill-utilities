@@ -60,11 +60,20 @@ public class ShoebillConfig
 		config.read(in);
 		
 		shoebillDir = new File(config.getString("shoebillPath") + File.separator);
-		repositoryDir = new File(shoebillDir, config.getString("folder.repository") + File.separator);
+		
+		File customRepositoryDir = new File(config.getString("customRepositoryPath") + File.separator);
+		repositoryDir = customRepositoryDir.isDirectory() ?
+				customRepositoryDir : new File(shoebillDir, config.getString("folder.repository") + File.separator);
+		
 		librariesDir = new File(shoebillDir, config.getString("folder.libraries") + File.separator);
 		pluginsDir = new File(shoebillDir, config.getString("folder.plugins") + File.separator);
 		gamemodesDir = new File(shoebillDir, config.getString("folder.gamemodes") + File.separator);
 		dataDir = new File(shoebillDir, config.getString("folder.data") + File.separator);
+
+		if (!librariesDir.isDirectory()) librariesDir.mkdirs();
+		if (!pluginsDir.isDirectory()) pluginsDir.mkdirs();
+		if (!gamemodesDir.isDirectory()) gamemodesDir.mkdirs();
+		if (!dataDir.isDirectory()) dataDir.mkdirs();
 		
 		resolveDependencies = config.getBoolean("resolveDependencies");
 		allowArtifactOverrideIgnoreGroupId = config.getBoolean("allowArtifactOverrideIgnoreGroupId");
