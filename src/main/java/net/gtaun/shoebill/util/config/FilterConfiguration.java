@@ -31,6 +31,7 @@ public abstract class FilterConfiguration extends AbstractConfiguration implemen
 	{
 		final ConfigurationFilter filter = new ConfigurationFilter()
 		{
+			@Override
 			String filterPath(String path)
 			{
 				return prefix + path;
@@ -65,11 +66,13 @@ public abstract class FilterConfiguration extends AbstractConfiguration implemen
 		(
 			config, new ConfigurationFilter()
 			{
+				@Override
 				ConfigurationPair filterSetPair(String path, Object value)
 				{
 					return null;
 				}
 				
+				@Override
 				ConfigurationPair filterSetDefaultPair(String path, Object value)
 				{
 					return null;
