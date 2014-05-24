@@ -27,8 +27,8 @@ import net.gtaun.shoebill.util.config.MapConfiguration;
 import net.gtaun.shoebill.util.config.YamlConfiguration;
 
 /**
- * 
- * 
+ *
+ *
  * @author JoJLlmAn, MK124
  */
 public class ResourceConfig
@@ -40,7 +40,7 @@ public class ResourceConfig
 		private String url;
 		private String username;
 		private String password;
-		
+
 		RepositoryEntry(MapConfiguration section)
 		{
 			id = section.getString("id");
@@ -49,91 +49,96 @@ public class ResourceConfig
 			username = section.getString("username", null);
 			password = section.getString("password", null);
 		}
-		
+
 		public String getId()
 		{
 			return id;
 		}
-		
+
 		public String getType()
 		{
 			return type;
 		}
-		
+
 		public String getUrl()
 		{
 			return url;
 		}
-		
+
 		public String getUsername()
 		{
 			return username;
 		}
-		
+
 		public String getPassword()
 		{
 			return password;
 		}
 	}
-	
-	
+
+
 	private List<RepositoryEntry> repositories;
 	private String cacheUpdatePolicy;
 	private boolean offlineMode;
-	
+
 	private List<String> runtimes;
 	private List<String> plugins;
 	private String gamemode;
-	
-	
+
+
 	@SuppressWarnings("unchecked")
 	public ResourceConfig(InputStream in)
 	{
 		YamlConfiguration config = new YamlConfiguration();
 		config.setDefault("cacheUpdatePolicy", "never");
-		
+
 		config.read(in);
-		
+
 		List<Map<String, Object>> repoMaps = (List<Map<String, Object>>) config.getList("repositories");
 		repositories = new ArrayList<>(repoMaps.size());
 		cacheUpdatePolicy = config.getString("cacheUpdatePolicy");
 		offlineMode = config.getBoolean("offlineMode");
-		
+
 		for (Map<String, Object> map : repoMaps)
 		{
 			repositories.add(new RepositoryEntry(new MapConfiguration(map)));
 		}
-		
+
 		runtimes = (List<String>) config.getList("runtimes");
 		plugins = (List<String>) config.getList("plugins");
 		gamemode = config.getString("gamemode");
 	}
-	
+
 	public List<RepositoryEntry> getRepositories()
 	{
 		return repositories;
 	}
-	
+
 	public String getCacheUpdatePolicy()
 	{
 		return cacheUpdatePolicy;
 	}
-	
+
 	public boolean isOfflineMode()
 	{
 		return offlineMode;
 	}
-	
+
+	public void setOfflineMode(boolean offlineMode)
+	{
+		this.offlineMode = offlineMode;
+	}
+
 	public List<String> getRuntimes()
 	{
 		return Collections.unmodifiableList(runtimes);
 	}
-	
+
 	public List<String> getPlugins()
 	{
 		return Collections.unmodifiableList(plugins);
 	}
-	
+
 	public String getGamemode()
 	{
 		return gamemode;
