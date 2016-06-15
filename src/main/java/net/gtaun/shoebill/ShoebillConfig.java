@@ -62,9 +62,14 @@ public class ShoebillConfig
 
 		shoebillDir = new File(config.getString("shoebillPath") + File.separator);
 
+        String currentUserRepository = System.getProperty("user.home") + File.separator + ".m2" +
+                File.separator + "repository";
+
+
 		String customRepositoryPath = config.getString("customRepositoryPath");
 		File customRepositoryDir = new File(customRepositoryPath + File.separator);
-		repositoryDir = (!StringUtils.isBlank(customRepositoryPath)) && customRepositoryDir.isDirectory() ? customRepositoryDir : new File(shoebillDir, config.getString("folder.repository") + File.separator);
+		repositoryDir = (!StringUtils.isBlank(customRepositoryPath)) && customRepositoryDir.isDirectory() ?
+				customRepositoryDir : new File(currentUserRepository + File.separator);
 
 		librariesDir = new File(shoebillDir, config.getString("folder.libraries") + File.separator);
 		pluginsDir = new File(shoebillDir, config.getString("folder.plugins") + File.separator);

@@ -52,7 +52,7 @@ public class ShoebillArtifactLocator
 		
 		for (String coord : coords)
 		{
-			File file = getArtifaceJarFile(coord, pluginsDir);
+			File file = getArtifactJarFile(coord, pluginsDir);
 			if (file != null) result.add(file);
 		}
 		
@@ -61,7 +61,7 @@ public class ShoebillArtifactLocator
 	
 	public File getPluginFile(String coord)
 	{
-		return getArtifaceJarFile(coord, shoebillConfig.getPluginsDir());
+		return getArtifactJarFile(coord, shoebillConfig.getPluginsDir());
 	}
 	
 	public List<File> getPluginFiles()
@@ -73,7 +73,7 @@ public class ShoebillArtifactLocator
 		
 		for (String coord : coords)
 		{
-			File file = getArtifaceJarFile(coord, pluginsDir);
+			File file = getArtifactJarFile(coord, pluginsDir);
 			if (file != null) result.add(file);
 		}
 		
@@ -82,7 +82,7 @@ public class ShoebillArtifactLocator
 	
 	public File getGamemodeFile()
 	{
-		return getArtifaceJarFile(resourceConfig.getGamemode(), shoebillConfig.getGamemodesDir());
+		return getArtifactJarFile(resourceConfig.getGamemode(), shoebillConfig.getGamemodesDir());
 	}
 	
 	public File getOverrideFile(String coord)
@@ -94,7 +94,7 @@ public class ShoebillArtifactLocator
 		return file;
 	}
 	
-	private File getArtifaceJarFile(String coord, File dir)
+	private File getArtifactJarFile(String coord, File dir)
 	{
 		File file = null;
 		file = getArtifactJarFileFromFlatRepo(coord, dir);
@@ -155,7 +155,7 @@ public class ShoebillArtifactLocator
 		
 		File file = new File(path);
 		
-		if (file.exists() == false) return null;
+		if (!file.exists()) return null;
 		return file;
 	}
 }
