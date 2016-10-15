@@ -19,6 +19,7 @@ package net.gtaun.shoebill.util.config;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 
@@ -45,7 +46,7 @@ public abstract class FilterConfiguration extends AbstractConfiguration implemen
 			{
 				List<String> list = new ArrayList<>();
 				Collection<String> parentList = config.getKeyList(prefix);
-				for (String key : parentList) list.add(key.substring(prefix.length()));
+                list.addAll(parentList.stream().map(key -> key.substring(prefix.length())).collect(Collectors.toList()));
 				return list;
 			}
 			
@@ -54,7 +55,7 @@ public abstract class FilterConfiguration extends AbstractConfiguration implemen
 			{
 				List<String> list = new ArrayList<>();
 				Collection<String> parentList = config.getKeyList(filter.filterPath(path));
-				for (String key : parentList) list.add(key.substring(prefix.length()));
+                list.addAll(parentList.stream().map(key -> key.substring(prefix.length())).collect(Collectors.toList()));
 				return list;
 			}
 		};

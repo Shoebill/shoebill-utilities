@@ -18,6 +18,8 @@ package net.gtaun.shoebill.util.config;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -228,15 +230,9 @@ public abstract class AbstractConfiguration implements Configuration
 	public List<String> getStringList(String path, List<String> def)
 	{
 		List<?> raw = getList(path);
-		if (raw == null) return (def != null) ? def : new ArrayList<String>();
-		
-		List<String> list = new ArrayList<>();
-		for (Object o : raw)
-		{
-			if (o != null) list.add(o.toString());
-		}
-		
-		return list;
+		if (raw == null) return (def != null) ? def : new ArrayList<>();
+
+		return raw.stream().filter(o -> o != null).map((Function<Object, String>) Object::toString).collect(Collectors.toList());
 	}
 	
 	@Override
@@ -249,15 +245,9 @@ public abstract class AbstractConfiguration implements Configuration
 	public List<Integer> getIntList(String path, List<Integer> def)
 	{
 		List<?> raw = getList(path);
-		if (raw == null) return (def != null) ? def : new ArrayList<Integer>();
-		
-		List<Integer> list = new ArrayList<>();
-		for (Object o : raw)
-		{
-			list.add(NumberUtils.toInt(o.toString(), 0));
-		}
-		
-		return list;
+		if (raw == null) return (def != null) ? def : new ArrayList<>();
+
+		return raw.stream().map(o -> NumberUtils.toInt(o.toString(), 0)).collect(Collectors.toList());
 	}
 	
 	@Override
@@ -270,15 +260,9 @@ public abstract class AbstractConfiguration implements Configuration
 	public List<Float> getFloatList(String path, List<Float> def)
 	{
 		List<?> raw = getList(path);
-		if (raw == null) return (def != null) ? def : new ArrayList<Float>();
-		
-		List<Float> list = new ArrayList<>();
-		for (Object o : raw)
-		{
-			list.add(NumberUtils.toFloat(o.toString(), 0.0f));
-		}
-		
-		return list;
+		if (raw == null) return (def != null) ? def : new ArrayList<>();
+
+		return raw.stream().map(o -> NumberUtils.toFloat(o.toString(), 0.0f)).collect(Collectors.toList());
 	}
 	
 	@Override
@@ -291,15 +275,9 @@ public abstract class AbstractConfiguration implements Configuration
 	public List<Double> getDoubleList(String path, List<Double> def)
 	{
 		List<?> raw = getList(path);
-		if (raw == null) return (def != null) ? def : new ArrayList<Double>();
-		
-		List<Double> list = new ArrayList<>();
-		for (Object o : raw)
-		{
-			list.add(NumberUtils.toDouble(o.toString(), 0.0));
-		}
-		
-		return list;
+		if (raw == null) return (def != null) ? def : new ArrayList<>();
+
+		return raw.stream().map(o -> NumberUtils.toDouble(o.toString(), 0.0)).collect(Collectors.toList());
 	}
 	
 	@Override
@@ -312,14 +290,8 @@ public abstract class AbstractConfiguration implements Configuration
 	public List<Boolean> getBooleanList(String path, List<Boolean> def)
 	{
 		List<?> raw = getList(path);
-		if (raw == null) return (def != null) ? def : new ArrayList<Boolean>();
-		
-		List<Boolean> list = new ArrayList<>();
-		for (Object o : raw)
-		{
-			list.add(BooleanUtils.toBoolean(o.toString()));
-		}
-		
-		return list;
+		if (raw == null) return (def != null) ? def : new ArrayList<>();
+
+		return raw.stream().map(o -> BooleanUtils.toBoolean(o.toString())).collect(Collectors.toList());
 	}
 }

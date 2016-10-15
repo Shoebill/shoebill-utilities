@@ -54,7 +54,6 @@ public class MapConfiguration extends AbstractConfiguration implements Configura
 		}
 		
 		node.put(childs[childs.length - 1], value);
-		return;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -90,7 +89,6 @@ public class MapConfiguration extends AbstractConfiguration implements Configura
 		}
 		catch (ClassCastException e)
 		{
-			return;
 		}
 	}
 	
@@ -111,8 +109,8 @@ public class MapConfiguration extends AbstractConfiguration implements Configura
 	
 	public MapConfiguration(Map<String, Object> root, Map<String, Object> def)
 	{
-		setRoot((root != null) ? root : new HashMap<String, Object>());
-		setDefaultRoot((def != null) ? def : new HashMap<String, Object>());
+		setRoot((root != null) ? root : new HashMap<>());
+		setDefaultRoot((def != null) ? def : new HashMap<>());
 	}
 	
 	@Override
@@ -163,7 +161,6 @@ public class MapConfiguration extends AbstractConfiguration implements Configura
 	public void set(String path, Object value)
 	{
 		set(root, path, value);
-		return;
 	}
 	
 	@Override

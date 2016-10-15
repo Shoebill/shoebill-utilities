@@ -84,7 +84,7 @@ public class YamlConfiguration extends MapConfiguration implements FileConfigura
 	{
 		Object obj = yaml.load(in);
 		if (obj instanceof Map) setRoot((Map<String, Object>) obj);
-		else setRoot(new HashMap<String, Object>());
+		else setRoot(new HashMap<>());
 	}
 	
 	@Override

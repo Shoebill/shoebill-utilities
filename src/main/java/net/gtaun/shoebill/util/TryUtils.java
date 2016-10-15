@@ -11,7 +11,7 @@ public class TryUtils
 
 	public static void tryTo(ThrowableFunction func)
 	{
-		tryTo(func, (ex) -> ex.printStackTrace());
+		tryTo(func, Throwable::printStackTrace);
 	}
 
 	public static void tryTo(ThrowableFunction func, Consumer<Throwable> exceptionHandler)

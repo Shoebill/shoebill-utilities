@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import net.gtaun.shoebill.util.config.MapConfiguration;
 import net.gtaun.shoebill.util.config.YamlConfiguration;
@@ -99,10 +100,7 @@ public class ResourceConfig
 		cacheUpdatePolicy = config.getString("cacheUpdatePolicy");
 		offlineMode = config.getBoolean("offlineMode");
 
-		for (Map<String, Object> map : repoMaps)
-		{
-			repositories.add(new RepositoryEntry(new MapConfiguration(map)));
-		}
+		repositories.addAll(repoMaps.stream().map(map -> new RepositoryEntry(new MapConfiguration(map))).collect(Collectors.toList()));
 
 		runtimes = (List<String>) config.getList("runtimes");
 		plugins = (List<String>) config.getList("plugins");
