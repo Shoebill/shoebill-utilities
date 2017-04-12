@@ -42,6 +42,7 @@ public class ShoebillConfig
 
 	private boolean resolveDependencies;
 	private boolean allowArtifactOverrideIgnoreGroupId;
+	private boolean allowAutomaticBugReporting;
 	private int serverCodepage;
 
 
@@ -56,6 +57,7 @@ public class ShoebillConfig
 		config.setDefault("folder.data", "data");
 		config.setDefault("resolveDependencies", true);
 		config.setDefault("allowArtifactOverrideIgnoreGroupId", true);
+		config.setDefault("allowAutomaticBugReporting", true);
 		config.setDefault("serverCodepage", 1252);
 
 		config.read(in);
@@ -83,6 +85,7 @@ public class ShoebillConfig
 
 		resolveDependencies = config.getBoolean("resolveDependencies");
 		allowArtifactOverrideIgnoreGroupId = config.getBoolean("allowArtifactOverrideIgnoreGroupId");
+		allowAutomaticBugReporting = config.getBoolean("allowAutomaticBugReporting");
 		serverCodepage = config.getInt("serverCodepage");
 	}
 
@@ -131,6 +134,8 @@ public class ShoebillConfig
 	{
 		return allowArtifactOverrideIgnoreGroupId;
 	}
+
+	public boolean isAutomaticBugReportingEnabled() { return allowAutomaticBugReporting; }
 
 	public int getServerCodepage()
 	{
